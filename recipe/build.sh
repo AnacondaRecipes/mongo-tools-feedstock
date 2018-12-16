@@ -1,17 +1,12 @@
 # Use upstream gopath setup
 . ./set_gopath.sh
 
-# Disable mongoreplay since we don't have libpcap
-if [ $(uname) == "Darwin" ]; then
-    sed -i 's/mongoreplay//' build.sh
-else
-    export CGO_ENABLED=1
-    export CGO_CFLAGS=-I${PREFIX}/include
-    export CGO_LDFLAGS=-L${PREFIX}/lib
-fi
+export CGO_ENABLED=1
+export CGO_CFLAGS=-I${PREFIX}/include
+export CGO_LDFLAGS="-L${PREFIX}/lib -Wl,-rpath,${PREFIX}/lib"
 
 # Build binaries
-./build.sh
+./build.sh ssl sasl
 
 # Move binaries in place
 mkdir -p $PREFIX/bin

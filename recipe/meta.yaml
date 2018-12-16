@@ -10,20 +10,19 @@ source:
     git_rev: r{{ version }}
 
 build:
-  number: 1000
-  skip: True  # [win]
+  number: 1001
+  detect_binary_files_with_prefix: False
 
 requirements:
   build:
     - {{ compiler('go') }}
-    - {{ compiler('c') }}  # [linux]
+    - {{ compiler('c') }}  # [unix]
     - git
-    - make
-    - sed  # [osx]
+    - make                 # [unix]
   host:
-    - libpcap  # [linux]
-  run:
-    - libpcap  # [linux]
+    - libpcap     # [unix]
+    - cyrus-sasl  # [unix]
+    - openssl     # [unix]
 
 test:
   commands:
@@ -47,7 +46,7 @@ test:
 
 about:
   home: https://www.mongodb.com
-  license: Apache-2.0
+  license: Apache 2.0
   summary: Tools for managing and monitoring MongoDB clusters
   dev_url: https://github.com/mongodb/mongo-tools
   doc_url: https://docs.mongodb.com/master/reference/program/
